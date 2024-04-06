@@ -8,8 +8,6 @@ const authRoute = require("./routes/authRoute");
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
 
-
-
 const cors = require("cors");
 
 // const path = require("path")
@@ -37,13 +35,6 @@ app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/category",categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 
-
-
-//rest api
-// app.use('*',function(req,res){
-//   console.log("...///");
-//     res.sendFile(path.join(__dirname, "../client/build/index.html"));
-// })
 
 app.listen(PORT, () => {
   console.log(`server ${process.env.DEV_MODE} running on ${PORT}`);
