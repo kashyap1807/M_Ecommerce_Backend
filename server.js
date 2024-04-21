@@ -7,6 +7,7 @@ const connectDB = require("./config/db");
 const authRoute = require("./routes/authRoute");
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
+const orderRoutes = require('./routes/orderRoute'); // Import the order routes
 
 const cors = require("cors");
 
@@ -34,7 +35,7 @@ app.use(morgan("dev"));
 app.use("/api/v1/auth", authRoute);
 app.use("/api/v1/category",categoryRoutes);
 app.use("/api/v1/product", productRoutes);
-
+app.use('/api/v1/orders', orderRoutes); // Use the order routes
 
 app.listen(PORT, () => {
   console.log(`server ${process.env.DEV_MODE} running on ${PORT}`);
