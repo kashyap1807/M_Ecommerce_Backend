@@ -3,7 +3,8 @@ const orderModel = require("../models/orderModel");
 const {hashPassword,comparePassword} = require('../helpers/authHelper');
 const JWT = require('jsonwebtoken');
 
-
+// Import Nodemailer
+const nodemailer = require("nodemailer");
 
 // for registration.............................................................................
 const registerController = async (req, res) => {
@@ -50,6 +51,39 @@ const registerController = async (req, res) => {
         //save
         const user = await new userModel({name,email,phone,address,password:hashedPassword,answer}).save();
 
+    const transporter = nodemailer.createTransport({
+      service: "Gmail", // Use your email service provider
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+    });
+
+    // Define email options (e.g., recipient, subject, text)
+    const mailOptions = {
+      from: process.env.EMAIL_USERNAME,
+      to: email,
+      subject: "Welcome to MEcommerce",
+      text: `Dear ${name},
+      \n
+        We are thrilled to have you join our MEcommerce. Your registration is successful, and you are now part of our community. Feel free to explore and make the most of our services. Should you have any questions or need assistance, don't hesitate to reach out.
+        \n
+        Welcome aboard!
+        \n\n
+        Best regards,\n
+        MECommerece Team`,
+    };
+
+    // Send email using the transporter and mail options
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+        
+      }
+    });
+    
         res.status(201).send({
             success:true,
             message:'User Registered Successfully',
